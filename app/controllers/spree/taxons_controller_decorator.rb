@@ -9,6 +9,9 @@ Spree::TaxonsController.class_eval do
       if @taxon.taxon_splash.nil?
         old_show.bind(self).()
       else
+        @searcher = Spree::Config.searcher_class.new(params.merge(:taxon => @taxon.id))
+        @products = @searcher.retrieve_products
+
         render :template => 'spree/taxons/splash'
       end
   end
